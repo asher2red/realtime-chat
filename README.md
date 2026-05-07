@@ -1,1 +1,15 @@
 # realtime-chat
+
+실시간 매칭 + 채팅 서버 포트폴리오 프로젝트
+
+## 기술 스택
+- Java 17
+- Spring Boot
+- MySQL
+- JPA
+
+## 구현 기능
+- 회원가입 API
+
+## API
+POST /usere/register
