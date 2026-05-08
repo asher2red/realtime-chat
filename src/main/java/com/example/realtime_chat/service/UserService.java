@@ -20,4 +20,16 @@ public class UserService {
 
         userRepository.save(user);
     }
+
+    public String login(UserRequest request) {
+
+        User user = userRepository.findByUsername(request.getUsername())
+                .orElseThrow(() -> new RuntimeException("유저 없음"));
+
+        if (!user.getPassword().equals(request.getPassword())) {
+            throw new RuntimeException("비밀번호 틀림");
+        }
+
+        return "로그인 성공";
+    }
 }

@@ -10,6 +10,12 @@
 
 ## 구현 기능
 - 회원가입 API
+- 로그인 API
 
 ## API
-POST /usere/register
+
+### 회원가입
+POST /users/register
+
+### 로그인
+POST /users/login

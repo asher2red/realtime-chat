@@ -19,4 +19,10 @@ public class UserController {
 
         return "회원 가입 완료";
     }
+
+    @PostMapping("/login")
+    public String login(@RequestBody UserRequest request) {
+
+        return userService.login(request);
+    }
 }
