@@ -11,6 +11,7 @@
 ## 구현 기능
 - 회원가입 API
 - 로그인 API
+- 유저 조회 API
 
 ## API
 
@@ -19,3 +20,6 @@ POST /users/register
 
 ### 로그인
 POST /users/login
+
+### 유저 조회
+GET /users/{id}

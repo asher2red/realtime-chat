@@ -32,4 +32,10 @@ public class UserService {
 
         return "로그인 성공";
     }
+
+    public User getUser(Long id) {
+
+        return userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("유저 없음"));
+    }
 }

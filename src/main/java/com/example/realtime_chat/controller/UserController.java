@@ -1,6 +1,7 @@
 package com.example.realtime_chat.controller;
 
 import com.example.realtime_chat.dto.UserRequest;
+import com.example.realtime_chat.entity.User;
 import com.example.realtime_chat.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -24,5 +25,11 @@ public class UserController {
     public String login(@RequestBody UserRequest request) {
 
         return userService.login(request);
+    }
+
+    @GetMapping("/{id}")
+    public User getUser(@PathVariable Long id) {
+
+        return userService.getUser(id);
     }
 }
