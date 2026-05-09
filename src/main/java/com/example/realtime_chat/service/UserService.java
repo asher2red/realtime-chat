@@ -3,6 +3,7 @@ package com.example.realtime_chat.service;
 import com.example.realtime_chat.dto.UserRequest;
 import com.example.realtime_chat.dto.UserResponse;
 import com.example.realtime_chat.entity.User;
+import com.example.realtime_chat.jwt.JwtUtil;
 import com.example.realtime_chat.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -33,7 +34,7 @@ public class UserService {
             throw new RuntimeException("비밀번호 틀림");
         }
 
-        return "로그인 성공";
+        return JwtUtil.createToken(user.getUsername());
     }
 
     public UserResponse getUser(Long id) {
