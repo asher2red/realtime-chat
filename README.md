@@ -13,6 +13,7 @@
 
 ## 인증
 - JWT 기반 로그인 토큰 발급
+- JWT Filter를 통한 요청 인증 검증
 - Authorization Header 기반 사용자 인증 처리
 
 ## 구현 기능
