@@ -5,8 +5,8 @@ import com.example.realtime_chat.dto.UserResponse;
 import com.example.realtime_chat.jwt.JwtUtil;
 import com.example.realtime_chat.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.RequestHeader;
 
 @RestController
 @RequiredArgsConstructor
@@ -36,9 +36,13 @@ public class UserController {
     }
 
     @GetMapping("/me")
-    public String me(@RequestHeader("Authorization") String authHeader) {
-        String token = authHeader.replace("Bearer", "");
+    public String me(Authentication authentication) {
 
-        return JwtUtil.getUsername(token);
+        return "현재 사용자: " + authentication.getName();
+    }
+
+    @GetMapping("/admin")
+    public String admin() {
+        return "관리자 페이지";
     }
 }
