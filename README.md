@@ -11,19 +11,22 @@
 ## 보안
 - BCrypt 기반 비밀번호 암호화 적용
 
-## 인증(Authentication)
+## 인증(Authentication)/인가(Authorization)
 - JWT 기반 로그인 토큰 발급
 - JWT Filter를 통한 요청 인증 검증
 - SecurityContext 기반 사용자 인증 처리
-
-## 인가(Authorization)
 - ROLE_USER / ROLE_ADMIN 기반 접근 제어
 - 관리자 전용 API 보호
+- 인증/인가 실패 상태 코드 처리
 
 ## 구현 기능
 - 회원가입 API
 - 로그인 API
 - 유저 조회 API
+- Global Exception Handler 적용
+- Custom Exception 기반 예외 처리
+- Generic API Response 구조 적용
+- API 응답 형식 통일
 
 ## API
 
@@ -36,3 +39,9 @@
 
 ### 관리자
 - GET /admin : 관리자 전용 API (ADMIN 권한 필요)
+
+## API 구조
+- Generic API Response 구조 적용
+- Global Exception Handler 적용
+- Custom Exception 기반 예외 처리
+- HTTP 상태 코드 분리

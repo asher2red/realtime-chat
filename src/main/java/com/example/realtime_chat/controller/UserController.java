@@ -1,5 +1,6 @@
 package com.example.realtime_chat.controller;
 
+import com.example.realtime_chat.dto.ApiResponse;
 import com.example.realtime_chat.dto.UserRequest;
 import com.example.realtime_chat.dto.UserResponse;
 import com.example.realtime_chat.jwt.JwtUtil;
@@ -16,21 +17,21 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/register")
-    public String register(@RequestBody UserRequest request) {
+    public ApiResponse<Void> register(@RequestBody UserRequest request) {
 
         userService.register(request);
 
-        return "회원 가입 완료";
+        return new ApiResponse<>(true, "회원 가입 완료", null);
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody UserRequest request) {
+    public ApiResponse<String> login(@RequestBody UserRequest request) {
 
         return userService.login(request);
     }
 
     @GetMapping("/{id}")
-    public UserResponse getUser(@PathVariable Long id) {
+    public ApiResponse<UserResponse> getUser(@PathVariable Long id) {
 
         return userService.getUser(id);
     }
