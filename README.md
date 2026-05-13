@@ -10,6 +10,8 @@
 
 ## 보안
 - BCrypt 기반 비밀번호 암호화 적용
+- JWT 기반 WebSocket 인증 처리
+- STOMP CONNECT 헤더 JWT 검증
 
 ## 인증(Authentication)/인가(Authorization)
 - JWT 기반 로그인 토큰 발급
@@ -27,6 +29,9 @@
 - Custom Exception 기반 예외 처리
 - Generic API Response 구조 적용
 - API 응답 형식 통일
+- 실시간 채팅 기능
+- WebSocket + STOMP 기반 메시지 브로드캐스트
+- 로그인 사용자 기반 채팅 메시지 처리
 
 ## API
 
@@ -45,3 +50,12 @@
 - Global Exception Handler 적용
 - Custom Exception 기반 예외 처리
 - HTTP 상태 코드 분리
+
+## API / Socket Endpoint
+
+### WebSocket
+- '/chat' : WebSocket 연결 endpoint
+
+### STOMP
+- '/app/message' : 메시지 전송
+- '/topic/message' : 메시지 구독

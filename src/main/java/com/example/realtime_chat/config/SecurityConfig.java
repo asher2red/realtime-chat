@@ -27,7 +27,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/users/register",
-                                "/users/login"
+                                "/users/login",
+                                "/chat/**",
+                                "/test.html",
+                                "/favicon.ico"
                         ).permitAll()
 
                         .requestMatchers("/admin")

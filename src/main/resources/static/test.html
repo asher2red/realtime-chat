@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>WebSocket Test</title>
+</head>
+<body>
+
+<input type="text" id="message">
+<button onclick="sendMessage()">전송</button>
+
+<ul id="messages"></ul>
+
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+
+<script>
+
+    const socket = new SockJS('http://localhost:8080/chat');
+
+    const stompClient = Stomp.over(socket);
+
+    const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MiIsImlhdCI6MTc3ODY2MTM0MCwiZXhwIjoxNzc4NjY0OTQwfQ.nBVcxYp1QCCrfqcRpMyLKT3OUTlDqt0Zjk3_Hs8AfSw";
+
+    stompClient.connect({
+        Authorization: "Bearer " + token
+    }, function () {
+
+        console.log("연결 성공");
+
+        stompClient.subscribe('/topic/messages', function (message) {
+
+            const body = JSON.parse(message.body);
+
+            const li = document.createElement('li');
+
+            li.innerText =
+                body.sender + ": " + body.message;
+
+            document
+                .getElementById('messages')
+                .appendChild(li);
+        });
+    });
+
+    function sendMessage() {
+
+        const input =
+            document.getElementById('message');
+
+        stompClient.send(
+            "/app/message",
+            {},
+            JSON.stringify({
+                message: input.value
+            })
+        );
+
+        input.value = "";
+    }
+
+</script>
+
+</body>
+</html>
