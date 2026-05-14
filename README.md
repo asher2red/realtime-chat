@@ -32,6 +32,10 @@
 - 실시간 채팅 기능
 - WebSocket + STOMP 기반 메시지 브로드캐스트
 - 로그인 사용자 기반 채팅 메시지 처리
+- JWT 기반 실시간 멀티룸 채팅
+- roomId 기반 채팅방 분리
+- 채팅 메시지 DB 저장
+- 채팅 내역 조회 API
 
 ## API
 
@@ -41,6 +45,7 @@
 
 ### 사용자
 - GET /users/me : 현재 로그인 사용자 조회 (인증 필요)
+- GET /chat/room/{roomId} : 채팅 조회
 
 ### 관리자
 - GET /admin : 관리자 전용 API (ADMIN 권한 필요)
@@ -57,5 +62,5 @@
 - '/chat' : WebSocket 연결 endpoint
 
 ### STOMP
-- '/app/message' : 메시지 전송
-- '/topic/message' : 메시지 구독
+- '/app/chat/{roomId}' : 특정 채팅방으로 메시지 전송
+- '/topic/room/{roomId}' : 특정 채팅방 메시지 구독

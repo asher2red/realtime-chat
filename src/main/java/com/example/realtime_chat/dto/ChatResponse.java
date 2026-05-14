@@ -2,6 +2,7 @@ package com.example.realtime_chat.dto;
 
 public class ChatResponse {
 
+    private Long roomId;
     private String sender;
     private String message;
 
@@ -9,7 +10,8 @@ public class ChatResponse {
 
     }
 
-    public ChatResponse(String sender, String message) {
+    public ChatResponse(Long roomId, String sender, String message) {
+        this.roomId = roomId;
         this.sender = sender;
         this.message = message;
     }

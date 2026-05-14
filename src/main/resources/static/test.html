@@ -20,7 +20,9 @@
 
     const stompClient = Stomp.over(socket);
 
-    const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MiIsImlhdCI6MTc3ODY2MTM0MCwiZXhwIjoxNzc4NjY0OTQwfQ.nBVcxYp1QCCrfqcRpMyLKT3OUTlDqt0Zjk3_Hs8AfSw";
+    const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MiIsImlhdCI6MTc3ODczMzU1NSwiZXhwIjoxNzc4NzM3MTU1fQ.QL24O1_1TRHg9WFF8Vmoa-VAnJhkE0fA0_iQquulu7c";
+
+    const roomId = prompt("방 번호 입력");
 
     stompClient.connect({
         Authorization: "Bearer " + token
@@ -28,7 +30,7 @@
 
         console.log("연결 성공");
 
-        stompClient.subscribe('/topic/messages', function (message) {
+        stompClient.subscribe('/topic/room/' + roomId, function (message) {
 
             const body = JSON.parse(message.body);
 
@@ -49,9 +51,10 @@
             document.getElementById('message');
 
         stompClient.send(
-            "/app/message",
+            "/app/chat/" + roomId,
             {},
             JSON.stringify({
+                roomId: roomId,
                 message: input.value
             })
         );
