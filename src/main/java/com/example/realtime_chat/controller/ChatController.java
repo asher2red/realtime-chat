@@ -37,7 +37,7 @@ public class ChatController {
 
         String username = (String) accessor.getSessionAttributes().get("username");
 
-        ChatResponse response = new ChatResponse(roomId, username, message.getMessage());
+        ChatResponse response = new ChatResponse(roomId, username, message.getMessage(), "CHAT");
 
         messagingTemplate.convertAndSend("/topic/room/" + roomId, response);
 

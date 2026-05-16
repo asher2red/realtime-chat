@@ -28,11 +28,13 @@ public class StompHandler implements ChannelInterceptor {
                 String token = authHeader.replace("Bearer ", "");
 
                 String username = JwtUtil.getUsername(token);
+                String roomId = accessor.getFirstNativeHeader("roomId");
 
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(username, null, List.of(new SimpleGrantedAuthority("ROLE_USER")));
 
                 accessor.getSessionAttributes().put("username", username);
+                accessor.getSessionAttributes().put("roomId", roomId);
 
                 System.out.println("WebSocket 인증 성공: " + username);
             }
