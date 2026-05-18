@@ -6,8 +6,23 @@
 </head>
 <body>
 
-<input type="text" id="message">
-<button onclick="sendMessage()">전송</button>
+<input id="username" placeholder="아이디">
+
+<input id="password" type="password" placeholder="비밀번호">
+
+<input id="roomId" placeholder="방 번호">
+
+<button onClick="login()">
+    로그인
+</button>
+
+<hr>
+
+<input id="message" placeholder="메시지 입력">
+
+<button onClick="sendMessage()">
+    전송
+</button>
 
 <ul id="messages"></ul>
 
@@ -16,52 +31,100 @@
 
 <script>
 
-    const socket = new SockJS('http://localhost:8080/chat');
-
-    const stompClient = Stomp.over(socket);
-
-    const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MiIsImlhdCI6MTc3ODkxNDM3MywiZXhwIjoxNzc4OTE3OTczfQ.QT86-nL9uzBs76c7eNRmr2R5NI_WYNqoH_5-vrKso_s";
-
-    const roomId = prompt("방 번호 입력");
+    let stompClient = null;
+    let token = null;
 
     const messagesDiv =
         document.getElementById('messages');
 
-    fetch('http://localhost:8080/chat/room/' + roomId)
-        .then(response => response.json())
-        .then(messages => {
+    async function login() {
 
-            messages.forEach(message => {
+        const username = document.getElementById('username').value;
 
-                const div = document.createElement('div');
+        const password = document.getElementById('password').value;
 
-                div.innerText = message.sender + " : " + message.message;
+        const roomId = document.getElementById('roomId').value;
 
-                messagesDiv.appendChild(div);
-            })
-        })
+        const response = await
+        fetch('http://localhost:8080/users/login',
+            {
+                method: 'POST',
 
-    stompClient.connect({
-        Authorization: "Bearer " + token,
-        roomId: roomId
-    }, function () {
+                headers: {
+                    'Content-Type': 'application/json'
+                },
 
-        console.log("연결 성공");
+                body: JSON.stringify({username, password})
+            }
+        );
 
-        stompClient.subscribe('/topic/room/' + roomId, function (message) {
+        const result = await response.json();
+        token = result.data;
 
-            const body = JSON.parse(message.body);
+        connect(roomId);
+    }
 
-            const li = document.createElement('li');
+    function connect(roomId) {
 
-            li.innerText =
-                body.sender + ": " + body.message;
+        const socket = new SockJS('http://localhost:8080/chat');
 
-            messagesDiv.appendChild(li);
+        stompClient = Stomp.over(socket);
+
+        stompClient.connect(
+            {
+                Authorization: 'Bearer ' + token,
+                roomId: roomId
+            },
+
+            function(frame) {
+
+                console.log('Connected: ' + frame);
+
+                loadMessages(roomId);
+
+                stompClient.subscribe('/topic/room/' + roomId,
+
+                    function(message) {
+                        const body = JSON.parse(message.body);
+
+                        appendMessage(body.sender + " : " + body.message);
+                    }
+                )
+            }
+        )
+    }
+
+    async function loadMessages(roomId) {
+
+        const response = await fetch('http://localhost:8080/chat/room/' + roomId);
+
+        const messages = await response.json();
+
+        messages.forEach(message => {
+
+            appendMessage(
+                message.sender + " : " + message.message
+            );
         });
-    });
+    }
+
+    function appendMessage(text) {
+
+        const div =
+            document.createElement(
+                'div'
+            );
+
+        div.innerText = text;
+
+        messages.appendChild(
+            div
+        );
+    }
 
     function sendMessage() {
+
+        const roomId = document.getElementById('roomId').value;
 
         const input =
             document.getElementById('message');
